@@ -33,6 +33,10 @@ body{
   position: relative;
 }
 
+body.nav-open{
+  overflow: hidden;
+}
+
 .grid-overlay{
   position: fixed;
   inset: 0;
@@ -77,6 +81,36 @@ ul{
   font-size: 1.5rem;
   font-weight: 600;
   letter-spacing: 0.08em;
+}
+
+.nav-toggle{
+  display: none;
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.3);
+  background: transparent;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 6px;
+  color: inherit;
+}
+
+.nav-toggle span{
+  width: 18px;
+  height: 2px;
+  background: currentColor;
+  display: block;
+  transition: transform .3s ease, opacity .3s ease;
+}
+
+body.nav-open .nav-toggle span:first-child{
+  transform: translateY(4px) rotate(45deg);
+}
+
+body.nav-open .nav-toggle span:last-child{
+  transform: translateY(-4px) rotate(-45deg);
 }
 
 .site-nav{
@@ -552,12 +586,38 @@ main{
 
 @media screen and (max-width: 48rem){
   .site-header{
-    flex-direction: column;
-    gap: 1rem;
+    flex-wrap: nowrap;
+    gap: 0.5rem;
+    padding-top: 0.9rem;
+    padding-bottom: 0.9rem;
+  }
+  .nav-toggle{
+    display: inline-flex;
   }
   .site-nav{
-    flex-wrap: wrap;
-    justify-content: center;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    align-items: stretch;
+    background: rgba(8,11,17,0.95);
+    border-bottom: 1px solid transparent;
+    padding: 0;
+    gap: 0.75rem;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height .35s ease, padding .35s ease, border-color .35s ease;
+  }
+  body.nav-open .site-nav{
+    max-height: 480px;
+    padding: 1rem 5vw 1.5rem;
+    border-color: var(--border);
+  }
+  .site-nav a,
+  .site-nav .btn{
+    width: 100%;
+    text-align: center;
   }
   .hero{
     grid-template-columns: 1fr;
@@ -580,9 +640,6 @@ main{
   }
   .photo-card img{
     height: 260px;
-  }
-  .site-nav{
-    flex-direction: column;
   }
   .btn{
     width: 100%;
